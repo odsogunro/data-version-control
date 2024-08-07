@@ -327,3 +327,99 @@ Collecting                                                                      
 Pushing
 13397 files pushed 
 ```
+
+- ...
+```
+$ git push --set-upstream origin first_experiment
+```
+
+### downloading files
+
+#### dvc checkout
+- delete the data/raw/val to see how the data can be restored from dvc cache of the remote store 
+```
+$ rm -rf data/raw/val
+```
+
+- get the data back from the cache
+```
+$ dvc checkout data/raw/val.dvc
+Building workspace index                                                                                                          |2.00 [00:00,  243entry/s]
+Comparing indexes                                                                                                               |3.94k [00:00, 65.4kentry/s]
+Applying changes                                                                                                                 |3.92k [00:02, 1.88kfile/s]
+A       data/raw/val/
+```
+
+#### dvc fetch
+- when you clone your GitHub repository on a new machine, the cache will be empty.
+- the fetch command gets the contents of the remote storage into the cache.
+- ...
+```
+$ dvc fetch data/raw/val.dvc
+
+$ dvc checkout
+```
+[or]
+#### dvc pull
+- ...
+
+```
+$ dvc pull
+```
+
+### basic day-to-day usage complete.
+
+```
+$ conda install -c conda-forge bpython csvkit mamba -y
+```
+
+# more involved dvc use cases next!
+
+- sharing computers with multiple people
+- creating reproducible pipelines
+
+### building a machine learning model
+
+1. prepare data for training
+2. train a machine learning model
+3. evaluate the performance of your model
+
+```
+tree -L 1 src
+src
+├── evaluate.py
+├── prepare.py
+└── train.py
+
+1 directory, 3 files
+```
+
+1. run prepare.py
+```
+$ python src/prepare.py
+
+tree -L 1 data/prepared/ 
+data/prepared/
+├── test.csv
+└── train.csv
+
+
+$ head -n 5 data/prepared/train.csv | csvlook 
+$ tail -n 5 data/prepared/train.csv | csvlook -H
+
+
+$ csvlook --max-rows 1 data/prepared/train.csv
+|     a | filename                                                                                    | label     |
+| ----- | ------------------------------------------------------------------------------------------- | --------- |
+| False | /Users/odsogunro/Projects/data-version-control/data/raw/train/n03445777/n03445777_5768.JPEG | golf ball |
+
+
+$ head -n 5 data/prepared/test.csv | csvlook
+$ tail -n 5 data/prepared/test.csv | csvlook -H
+
+$ csvlook --max-rows 1 data/prepared/test.csv
+|     a | filename                                                                                  | label     |
+| ----- | ----------------------------------------------------------------------------------------- | --------- |
+| False | /Users/odsogunro/Projects/data-version-control/data/raw/val/n03445777/n03445777_2412.JPEG | golf ball |
+```
+
