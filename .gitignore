@@ -1,10 +1,11 @@
 #####
 # .data/ 
 #####
-*.tgz
-imagenette2-160.tgz
-imagenette2-160/
+# *.tgz
+data/imagenette2-160.tgz
+data/imagenette2-160/
 
+data/dvc_remote/
 # train/
 # val/
 

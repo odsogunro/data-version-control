@@ -272,7 +272,8 @@ To enable auto staging, run:
 
 - ...
 ```
-dvc add data/raw/val
+$ dvc add data/raw/val
+
 100% Adding...|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████|1/1 [00:10, 10.24s/file]
                                                                                                                                                 
 To track the changes with git, run:
@@ -282,4 +283,47 @@ To track the changes with git, run:
 To enable auto staging, run:
 
         dvc config core.autostage true
+```
+
+- ...
+```
+$ git add data/raw/.gitignore data/raw/train.dvc
+$ git add data/raw/.gitignore data/raw/val.dvc
+$ dvc config core.autostage true 
+
+$ git add --all
+On branch first_experiment
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   .dvc/.gitignore
+        new file:   .dvc/config
+        new file:   .dvcignore
+        modified:   .gitignore
+        modified:   README.md
+        modified:   data/raw/.gitignore
+        new file:   data/raw/train.dvc
+        new file:   data/raw/val.dvc
+```
+
+
+### uploadling files
+
+- ...
+```
+$ git commit -m "first commit with setup and dvc files"
+[first_experiment 470eda7] first commit with setup and dvc files
+ 8 files changed, 311 insertions(+)
+ create mode 100644 .dvc/.gitignore
+ create mode 100644 .dvc/config
+ create mode 100644 .dvcignore
+ create mode 100644 data/raw/train.dvc
+ create mode 100644 data/raw/val.dvc
+```
+
+- ...
+```
+$ dvc push
+Collecting                                                                                                                      |13.4k [00:00, 14.9kentry/s]
+Pushing
+13397 files pushed 
 ```
