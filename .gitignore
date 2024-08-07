@@ -1,3 +1,18 @@
+#####
+# .data/ 
+#####
+*.tgz
+imagenette2-160.tgz
+imagenette2-160/
+
+# train/
+# val/
+
+#####
+# python
+#####
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
