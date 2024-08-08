@@ -509,10 +509,17 @@ $ dvc commit
 $ git add --all
 $ git commit -m "change SGD max_iter to 100"
 ```
+
 - tag the new experiment
 ```
 $ git tag -a sgd-100-iter -m "trained an SGD classifier for 100 iterations"
 $ git push origin --tags
+```
+
+- ...
+```
+$ git push --set-upstream origin sgd-100-iterations
+$ dvc push
 ```
 
 ## Part 03 of 05 - Version Datasets and Models - END
