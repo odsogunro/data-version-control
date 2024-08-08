@@ -436,4 +436,27 @@ $ csvlook --max-rows 1 data/prepared/test.csv
 $ python src/train.py
 
 /usr/local/Caskroom/miniconda/base/envs/dvc/lib/python3.12/site-packages/sklearn/linear_model/_stochastic_gradient.py:744: ConvergenceWarning: Maximum number of iteration reached before convergence. Consider increasing max_iter to improve the fit.
+
+$ dvc add model/model.joblib
+
+tree -L 1 model/            
+model/
+├── model.joblib
+└── model.joblib.dvc
+
+1 directory, 2 files
+
+$ git add --all
+$ git commit -m "trained an sgd classifier"
+```
+
+### evaluating the model
+
+- ...
+```
+$ python src/evaluate.py
+
+tree -L 1 metrics 
+metrics
+└── accuracy.json
 ```
