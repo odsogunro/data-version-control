@@ -507,7 +507,12 @@ $ python src/evaluate.py
 $ dvc commit
 
 $ git add --all
-$ git commit -m "Change SGD max_iter to 100"
+$ git commit -m "change SGD max_iter to 100"
+```
+- tag the new experiment
+```
+$ git tag -a sgd-100-iter -m "trained an SGD classifier for 100 iterations"
+$ git push origin --tags
 ```
 
 ## Part 03 of 05 - Version Datasets and Models - END
