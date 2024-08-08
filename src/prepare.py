@@ -36,5 +36,16 @@ def main(repo_path):
 
 
 if __name__ == "__main__":
-    repo_path = Path(__file__).parent.parent
+    
+    ###
+    # TODO: DAMI WAS HERE!
+    ###
+    print(Path(__file__)) 
+    # /Users/odsogunro/Projects/data-version-control/src/prepare.py
+    print(Path(__file__).parent)
+    # /Users/odsogunro/Projects/data-version-control/src
+    print(Path(__file__).parent.parent)
+    # /Users/odsogunro/Projects/data-version-control
+    
+    repo_path = Path(__file__).parent.parent 
     main(repo_path)
