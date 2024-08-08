@@ -180,7 +180,8 @@ $ rm -rf ./data/imagenette2-160
 $ rm ./data/imagenette2-160.tgz
 ```
 
-# first experiment
+## Part 01 of 05 - Practice the Basic DVC Workflow - START
+### first experiment
 
 - create and checkout branch 
 ```
@@ -373,10 +374,11 @@ $ dvc pull
 $ conda install -c conda-forge bpython csvkit mamba -y
 ```
 
-# more involved dvc use cases next!
+## Part 01 of 05 - Practice the Basic DVC Workflow - END
 
-- sharing computers with multiple people
-- creating reproducible pipelines
+...
+
+## Part 02 of 05 - Build a Machine Learning Model - START
 
 ### building a machine learning model
 
@@ -459,4 +461,65 @@ $ python src/evaluate.py
 tree -L 1 metrics 
 metrics
 └── accuracy.json
+
+$ git add --all
+$ git commit -m "evaluate the sgd model accuracy"
 ```
+
+## Part 02 of 05 - Build a Machine Learning Model - END
+
+- ...
+```
+$ git push
+$ dvc push
+```
+
+## Part 03 of 05 - Version Datasets and Models - START
+
+### tagging commits
+
+- ...
+```
+$ git tag -a sgd-classifier -m "SGDClassifier with accuracy 71.06%"
+
+$ git push origin --tags
+Enumerating objects: 1, done.
+Counting objects: 100% (1/1), done.
+Writing objects: 100% (1/1), 200 bytes | 200.00 KiB/s, done.
+Total 1 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/odsogunro/data-version-control.git
+ * [new tag]         sgd-classifier -> sgd-classifier
+
+$ git tag
+sgd-classifier
+```
+
+### creating one git branch per experiment
+
+- ...
+```
+$ git checkout -b "sgd-100-iterations"
+Switched to a new branch 'sgd-100-iterations'
+
+$ python src/train.py
+$ python src/evaluate.py
+
+$ dvc commit
+
+$ git add --all
+$ git commit -m "Change SGD max_iter to 100"
+```
+
+## Part 03 of 05 - Version Datasets and Models - END
+
+...
+
+## Part 04 of 05 - Share a Development Machine - START
+
+## Part 04 of 05 - Share a Development Machine - END
+
+...
+
+## Part 05 of 05 - Create Reproducible Pipelines - START
+
+## Part 05 of 05 - Create Reproducible Pipelines - END
