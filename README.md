@@ -16,6 +16,7 @@ Happy coding!
 
 ```
 ```
+
 # summary notes on dvc tutorial
 
 ### 20240807, thursday 
@@ -181,6 +182,8 @@ $ rm ./data/imagenette2-160.tgz
 ```
 
 ## Part 01 of 05 - Practice the Basic DVC Workflow - START
+- https://realpython.com/python-data-version-control/#build-a-machine-learning-model
+
 ### first experiment
 
 - create and checkout branch 
@@ -229,6 +232,33 @@ tree -L 2 .dvc
 $ cat .dvc/config 
 ```
 
+### about dvc
+
+```
+$ dvc version
+DVC version: 3.53.1 (conda)
+---------------------------
+Platform: Python 3.12.4 on macOS-14.5-x86_64-i386-64bit
+Subprojects:
+        dvc_data = 3.15.2
+        dvc_objects = 5.1.0
+        dvc_render = 1.0.2
+        dvc_task = 0.4.0
+        scmrepo = 3.3.7
+Supports:
+        http (aiohttp = 3.10.1, aiohttp-retry = 2.8.3),
+        https (aiohttp = 3.10.1, aiohttp-retry = 2.8.3)
+Config:
+        Global: /Users/odsogunro/Library/Application Support/dvc
+        System: /Library/Application Support/dvc
+Cache types: reflink, hardlink, symlink
+Cache directory: apfs on /dev/disk1s4s1
+Caches: local
+Remotes: local
+Workspace directory: apfs on /dev/disk1s4s1
+Repo: dvc, git
+Repo.site_cache_dir: /Library/Caches/dvc/repo/73eef8caf1abf7cbb1ec83ba02847e56
+```
 
 ### turn off anonymous analytics tracking
 - ...
@@ -379,6 +409,7 @@ $ conda install -c conda-forge bpython csvkit mamba -y
 ...
 
 ## Part 02 of 05 - Build a Machine Learning Model - START
+- https://realpython.com/python-data-version-control/#build-a-machine-learning-model
 
 ### building a machine learning model
 
@@ -475,6 +506,7 @@ $ dvc push
 ```
 
 ## Part 03 of 05 - Version Datasets and Models - START
+- https://realpython.com/python-data-version-control/#version-datasets-and-models
 
 ### tagging commits
 
@@ -522,16 +554,88 @@ $ git push --set-upstream origin sgd-100-iterations
 $ dvc push
 ```
 
+### looking inside dvc files
+
+- https://dvc.org/doc/user-guide/project-structure
+- ...
+```
+$ cat model/model.joblib.dvc 
+outs:
+- md5: fb5d0044da2b85949f1b5d9dd70d3759
+  size: 241149
+  hash: md5
+  path: model.joblib
+```
+
 ## Part 03 of 05 - Version Datasets and Models - END
 
 ...
 
 ## Part 04 of 05 - Share a Development Machine - START
+- https://realpython.com/python-data-version-control/#share-a-development-machine
+- how to configure a shared cache, https://dvc.org/doc/user-guide/how-to/share-a-dvc-cache#configure-the-shared-cache
+- how to share a dvc cache, https://dvc.org/doc/user-guide/how-to/share-a-dvc-cache
+
+- changing your cache directory after 'dvc init' to a shared cache on a shared machine
+- ...
+```
+$ dvc cache dir path/to/shared_cache
+```
+Now every time you run dvc add or dvc commit, the data will be backed up in that folder. When you use dvc fetch to get data from remote storage, it will go to the shared cache, and dvc checkout will bring it to your working repository.
+
+If you’ve been following along and working through the examples in this tutorial, then all your files will be in your repository’s .dvc/cache folder. After executing the above command, move the data from the default cache to the new, shared one:
+
+- ...
+```
+$ mv .dvc/cache/* path/to/shared_cache
+```
+
+![shared_cache_image](./img/6_new-shared_cache.54170a671825.png)
+
+Great. Now you have a shared cache that all other users can share for their repositories. If your operating system (OS) doesn’t allow everyone to work with the shared cache, then make sure all the permissions on your system are set correctly. You can find more details on setting up a shared system in the [DVC docs](https://dvc.org/doc/use-cases/fast-data-caching-hub#example-shared-development-server).
+
+If you check your repository’s .dvc/config file, then you’ll see a new section appear:
+```
+[cache]
+    dir = /path/to/shared_cache
+```
+NOTE: File link types for the DVC cache, https://dvc.org/doc/user-guide/data-management/large-dataset-optimization#file-link-types-for-the-dvc-cache
+
+You can change the default behavior of your cache by changing the cache.type configuration option:
+```
+$ dvc config cache.type reflink, hardlink, symlink
+
+$ dvc config cache.type reflink
+$ dvc config cache.type hardlink
+$ dvc config cache.type symlink
+```
+
+You can replace symlink with reflink, hardlink, or copies. Research each type of link and choose the most appropriate option for the OS you’re working on. Remember, you can check how your DVC repository is currently configured by reading the .dvc/config file:
+```
+[cache]
+    dir = /path/to/shared_cache
+    type = symlink
+```
+
+If you make a change to the cache.type, it doesn’t take effect immediately. You need to tell DVC to check out links instead of file copies:
+
+```
+$ dvc checkout --relink
+```
+The --relink switch will tell DVC to check the cache type and relink all the files that are currently tracked by DVC.
+
+If there are models or data files in your repository or cache that aren’t being used, then you can save additional space by cleaning up your repository with dvc gc. **gc** stands for **garbage collection** and will remove any unused files and directories from the cache.
+
+![be_careful_of_gc_and_remove_commands.png](./img/be_careful_of_gc_and_remove_commands.png)
+
+You’re now all set to share a development machine with your team. The next feature to explore is creating pipelines.
 
 ## Part 04 of 05 - Share a Development Machine - END
 
 ...
 
 ## Part 05 of 05 - Create Reproducible Pipelines - START
+
+
 
 ## Part 05 of 05 - Create Reproducible Pipelines - END
