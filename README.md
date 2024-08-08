@@ -423,3 +423,17 @@ $ csvlook --max-rows 1 data/prepared/test.csv
 | False | /Users/odsogunro/Projects/data-version-control/data/raw/val/n03445777/n03445777_2412.JPEG | golf ball |
 ```
 
+### training the model
+
+1. read the csv file that tells python where the images are
+2. load the training images into memory
+3. load the class labels into memory
+4. preprocess the images so they can be used for training
+5. train a machine learning model to classify the images
+6. save the machine learning model to your disk
+
+```
+$ python src/train.py
+
+/usr/local/Caskroom/miniconda/base/envs/dvc/lib/python3.12/site-packages/sklearn/linear_model/_stochastic_gradient.py:744: ConvergenceWarning: Maximum number of iteration reached before convergence. Consider increasing max_iter to improve the fit.
+```
