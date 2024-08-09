@@ -483,6 +483,9 @@ $ git add --all
 $ git commit -m "trained an sgd classifier"
 ```
 
+supervised learning model - stochastic gradient descent (sgd) classifier
+- https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html
+
 ### evaluating the model
 
 - ...
@@ -992,5 +995,106 @@ Path                   accuracy
 metrics/accuracy.json  0.77567
 ```
 ![new-pipeline_3_1.2459d31b98e5.png.avif](./img/new-pipeline_3_1.2459d31b98e5.png.avif)
+
+
+### pipeline/workflow completed. 
+- now tag the branch and push to gitguh and dvc
+- ...
+```
+$ git add --all
+$ git commit -m "rerun SGD as pipeline"
+$ dvc commit
+$ git push --set-upstream origin sgd-pipeline
+$ git tag -a sgd-pipeline -m "trained SGD as DVC pipeline."
+$ git push origin --tags
+$ dvc push
+```
+
+- ...
+```
+$ git status
+On branch sgd-pipeline
+Your branch is up to date with 'origin/sgd-pipeline'.
+
+$ dvc status
+Data and pipelines are up to date.    
+```
+
+**NEXT**
+
+ensemble learning model - random forest classifier
+- https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html
+- ...
+```
+$ git checkout -b "rf-pipeline"
+```
+
+- ...
+```
+$ git diff
+
+diff --git a/src/train.py b/src/train.py
+index 2317a48..b196519 100644
+--- a/src/train.py
++++ b/src/train.py
+@@ -5,7 +5,8 @@ import numpy as np
+ import pandas as pd
+ from skimage.io import imread_collection
+ from skimage.transform import resize
+-from sklearn.linear_model import SGDClassifier
++from sklearn.ensemble import RandomForestClassifier
++
+ 
+ 
+ def load_images(data_frame, column_name):
+@@ -37,8 +38,8 @@ def load_data(data_path):
+ def main(repo_path):
+     train_csv_path = repo_path / "data/prepared/train.csv"
+     train_data, labels = load_data(train_csv_path)
+-    sgd = SGDClassifier(max_iter=100)
+-    trained_model = sgd.fit(train_data, labels)
++    rf = RandomForestClassifier()
++    trained_model = rf.fit(train_data, labels)
+     dump(trained_model, repo_path / "model/model.joblib")
+```
+
+- ...
+```
+$ dvc status
+
+train:
+        changed deps:
+                modified:           src/train.py
+```
+
+- ...
+```
+$ dvc repro evaluate
+
+'data/raw/train.dvc' didn't change, skipping                                                                                                                                                                
+'data/raw/val.dvc' didn't change, skipping                                                                                                                                                                  
+Stage 'prepare' didn't change, skipping                                                                                                                                                                     
+Running stage 'train':                                                                                                                                                                                      
+> python src/train.py
+/Users/odsogunro/Projects/data-version-control/src/train.py
+/Users/odsogunro/Projects/data-version-control/src
+/Users/odsogunro/Projects/data-version-control
+Updating lock file 'dvc.lock'                                                                                                                                                                               
+
+Running stage 'evaluate':                                                                                                                                                                                   
+> python src/evaluate.py
+/Users/odsogunro/Projects/data-version-control/src/evaluate.py
+/Users/odsogunro/Projects/data-version-control/src
+/Users/odsogunro/Projects/data-version-control
+Updating lock file 'dvc.lock'                                                                                                                                                                               
+Use `dvc push` to send your updates to remote storage.
+```
+
+- ...
+```
+$ dvc metrics show 
+Path                   accuracy
+metrics/accuracy.json  0.81496
+```
 
 ## Part 05 of 05 - Create Reproducible Pipelines - END
