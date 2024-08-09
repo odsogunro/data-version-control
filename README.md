@@ -1097,4 +1097,14 @@ Path                   accuracy
 metrics/accuracy.json  0.81496
 ```
 
+- ...
+```
+$ git add --all
+$ git commit -m "train random forest classifier"
+$ dvc commit
+$ git push --set-upstream origin pipeline
+$ git tag -a random-forest -m "random forest classifier with 80.99% accuracy."
+$ git push origin --tags
+$ dvc push
+```
 ## Part 05 of 05 - Create Reproducible Pipelines - END
