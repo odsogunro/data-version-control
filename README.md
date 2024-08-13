@@ -1102,9 +1102,31 @@ metrics/accuracy.json  0.81496
 $ git add --all
 $ git commit -m "train random forest classifier"
 $ dvc commit
-$ git push --set-upstream origin pipeline
-$ git tag -a random-forest -m "random forest classifier with 80.99% accuracy."
+$ git push --set-upstream origin rf-pipeline
+$ git tag -a rf-pipeline -m "random forest classifier with 80.99% accuracy."
 $ git push origin --tags
 $ dvc push
+```
+
+- ...
+```
+$ dvc metrics show -T
+
+Revision      Path                   accuracy
+rf-pipeline   metrics/accuracy.json  0.81496
+sgd-pipeline  metrics/accuracy.json  0.77567
+```
+
+### final notes: reproducibility 
+
+to reproduce results anytime and by anyone follow these steps
+
+1. run **git clone** or **git checkout** to get the code and .dvc files.
+2. get the training data with **dvc checkout**.
+    - if they can write a script to fetch the data and create a pipeline stage for it, then they won’t even need step 2.
+3. reproduce the entire workflow with **dvc repro evaluate**.
+
+```
+$ ..
 ```
 ## Part 05 of 05 - Create Reproducible Pipelines - END
